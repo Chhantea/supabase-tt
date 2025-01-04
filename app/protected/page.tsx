@@ -1,6 +1,8 @@
 import FetchDataSteps from "@/components/tutorial/fetch-data-steps";
+import employee from "@/lib/actions/server/employee.actions";
 import { createClient } from "@/utils/supabase/server";
 import { InfoIcon } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedPage() {
@@ -13,6 +15,8 @@ export default async function ProtectedPage() {
   if (!user) {
     return redirect("/sign-in");
   }
+
+  const serverData = await employee.get();
 
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
@@ -28,6 +32,13 @@ export default async function ProtectedPage() {
         <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
           {JSON.stringify(user, null, 2)}
         </pre>
+        <p>{JSON.stringify(serverData)}</p>
+        <Link href={"/employee"} className="text-blue-500">
+          employee
+        </Link>
+        <Link href={"/finance"} className="text-blue-500">
+          finance
+        </Link>
       </div>
       {/* <div>
         <h2 className="font-bold text-2xl mb-4">Next steps</h2>
